@@ -1,4 +1,7 @@
-# Individual Adaptability Index -- Confidential
+# Individual Adaptability Index -- Northstar Inventory Sync -- Confidential
+
+**Client:** Northstar Retail Co. The Day 4 pivot replaced 5-minute warehouse
+polling with signed warehouse webhooks.
 
 Per the sprint rules, this is never shared verbatim with teammates -- only
 aggregate patterns get released. Answer honestly; this is a peer-review /

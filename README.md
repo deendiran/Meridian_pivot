@@ -13,8 +13,9 @@ Both are post-pivot as of this version.
 
 ## Run everything
 
-Each module needs **two backend processes** running simultaneously (a mock
-vendor + the actual service), plus its frontend opened in a browser.
+Northstar needs its service and push simulator. Solstice needs RabbitMQ, the
+mock printer vendor, and the kiosk service. Each frontend can be opened as a
+local HTML file.
 
 ### Northstar (inventory sync)
 
@@ -59,10 +60,8 @@ Open `solstice-checkin/frontend/index.html`. Enter an attendee code (e.g.
 the same code again while it's still pending to see the duplicate-scan
 guard reject it.
 
-No RabbitMQ available? Swap `job_queue_rabbitmq` for `job_queue_inmemory`
-in the two `import` lines in `checkin_service.py` and `printer_vendor.py`
--- same interface, zero external dependencies, useful for quick local
-iteration.
+The Solstice service requires RabbitMQ because `job_queue_rabbitmq.py` is the
+only queue adapter currently included in this module.
 
 ## Project layout
 
@@ -70,8 +69,8 @@ iteration.
 meridian-pivot/
 ├── README.md                       (this file)
 ├── SCOPE_DELTA.md                  Northstar: what changed in the pivot
-├── BLOCKER_JOURNAL.md              Northstar: Day 1-2 log (template)
-├── ADAPTABILITY_INDEX.md           Northstar: confidential peer review (template)
+├── BLOCKER_JOURNAL.md              Northstar: Day 1-2 log
+├── ADAPTABILITY_INDEX.md           Northstar: confidential peer review
 │
 ├── backend/                        Northstar service
 │   ├── sync_service.py             webhook receiver + query + search routes
@@ -86,16 +85,16 @@ meridian-pivot/
 │   └── script.js                   SKU lookup + name search + live sync badge
 │
 └── solstice-checkin/
+    ├── README.md                    setup, workflow, tests, and limitations
     ├── SCOPE_DELTA.md               what changed in this pivot
-    ├── BLOCKER_JOURNAL.md           Day 1-2 log (template)
-    ├── ADAPTABILITY_INDEX.md        confidential peer review (template)
+    ├── BLOCKER_JOURNAL.md           Day 1-2 learning and blocker record
+    ├── ADAPTABILITY_INDEX.md        confidential peer review
     │
     ├── backend/
     │   ├── checkin_service.py       publish-and-return-pending + webhook receiver
-    │   ├── checkin_service_PRE_PIVOT.py   kept for the record, unused
+    │   ├── test_checkin.py           focused pivot behavior tests
     │   ├── printer_vendor.py        mock vendor: queue consumer + webhook sender
     │   ├── job_queue_rabbitmq.py    real broker version (aio-pika) -- currently wired in
-    │   ├── job_queue_inmemory.py    zero-infra fallback, same interface
     │   ├── state.py                 attendee state machine, unchanged by the pivot
     │   ├── webhook_utils.py, config.py, requirements.txt
     │
@@ -104,15 +103,13 @@ meridian-pivot/
         └── script.js                 status ring + pending-state polling
 ```
 
-## Message queue: real broker vs. in-memory
+## Message queue
 
-Both implementations exist and share the same `publish()` / `start_worker()`
-interface, so switching is a one-line import change in `checkin_service.py`
-and `printer_vendor.py`. `job_queue_rabbitmq.py` is currently wired in and
-has been tested against an actual running RabbitMQ broker -- not just
-written, verified: job published from `checkin_service`, consumed
-independently by `printer_vendor`, webhook fired back, attendee resolved to
-`checked_in`, queue drained to zero messages after processing.
+`job_queue_rabbitmq.py` is wired into both Solstice services. The queue is
+durable, messages are persistent, and a message is acknowledged only after
+the vendor finishes processing and receives a successful webhook response.
+The demo state store is in memory, so production use would require shared
+durable storage for restart and multi-replica duplicate protection.
 
 ## Assignment deliverable map (per module)
 

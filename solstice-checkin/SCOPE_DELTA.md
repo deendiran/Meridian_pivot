@@ -37,12 +37,11 @@ pending` immediately instead of `200 checked_in` after blocking.
 - `state.py`'s `can_start_checkin()` -- the actual duplicate-scan guard --
   was **not touched**. It already rejected anything outside
   NOT_CHECKED_IN/FAILED before the pivot; PENDING just became a new value
-  that guard already excludes. Verified live: a scan attempted while a job
-  was PENDING returned 409 before the print job had even finished.
-- Out-of-order safety verified directly: webhook resolution is keyed by
-  `job_id` via `is_job_still_live(attendee_id, job_id)`, not by which
-  request arrives first, so two jobs completing in reverse-publish-order
-  resolve correctly regardless.
+  that guard already excludes. The focused test checks that a scan while a
+  job is PENDING returns 409 before a second job is published.
+- Out-of-order safety is covered by the focused test: webhook resolution is
+  keyed by `job_id` via `is_job_still_live(attendee_id, job_id)`, not by which
+  request arrives first, so reverse completion order is handled correctly.
 - Idempotency is covered by the focused test: the same webhook payload
   delivered twice resolves the attendee once and safely no-ops the second
   time with `"status": "ignored"`.

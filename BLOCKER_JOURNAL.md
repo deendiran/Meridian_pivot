@@ -1,4 +1,7 @@
-# Learning & Blocker Journal -- Days 1-2
+# Learning & Blocker Journal -- Northstar Inventory Sync
+
+**Assignment:** 1, independent learning and blocker log for the Northstar
+Retail Co. inventory-sync scenario.
 
 **Assigned tool/concept:** <!-- what you were given -->
 **Time-boxed to:** <!-- your allotted hours -->
