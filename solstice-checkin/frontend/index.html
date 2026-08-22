@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solstice Events — Check-In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="kiosk">
+
+        <header class="kiosk-header">
+            <span class="event-name">Solstice Events</span>
+            <span class="event-sub">Attendee Check-In</span>
+        </header>
+
+        <main class="kiosk-main">
+
+            <div class="status-ring" id="statusRing" data-state="idle">
+                <span class="status-ring-glyph" id="statusGlyph">—</span>
+            </div>
+
+            <h1 class="status-message" id="statusMessage">Scan your badge to check in</h1>
+            <p class="status-detail" id="statusDetail">Enter your attendee code below.</p>
+
+            <form id="scanForm" class="scan-form" autocomplete="off">
+                <input type="text" id="attendeeInput" placeholder="e.g. ATT-001" aria-label="Attendee code" />
+                <button type="submit" id="scanButton">Check In</button>
+            </form>
+
+        </main>
+
+        <footer class="kiosk-footer">
+            <h2>Recent activity</h2>
+            <ul id="recentList" class="recent-list">
+                <li class="recent-empty">No check-ins yet.</li>
+            </ul>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

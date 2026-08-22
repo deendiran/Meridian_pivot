@@ -1,0 +1,345 @@
+:root {
+    --bg: #12161c;
+    --surface: #1b212b;
+    --surface-raised: #232a35;
+    --border: #2c3440;
+    --text: #e8eaed;
+    --text-muted: #8b93a1;
+    --accent-live: #3ddc97;
+    --accent-alert: #ff6b4a;
+    --accent-live-dim: rgba(61, 220, 151, 0.12);
+    --accent-alert-dim: rgba(255, 107, 74, 0.12);
+
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+}
+
+.app {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-mark {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 14px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 9px;
+    border-radius: 6px;
+    letter-spacing: 0.04em;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.brand-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.brand-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Sync indicator - signature element */
+.sync-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 999px;
+}
+
+.sync-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-live);
+    box-shadow: 0 0 0 0 rgba(61, 220, 151, 0.6);
+    animation: pulse 2.4s ease-out infinite;
+}
+
+.sync-indicator[data-mode="polling"] .sync-dot {
+    background: var(--text-muted);
+    animation: none;
+}
+
+.sync-indicator[data-mode="webhook"] .sync-dot {
+    background: var(--accent-live);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(61, 220, 151, 0.55);
+    }
+
+    70% {
+        box-shadow: 0 0 0 8px rgba(61, 220, 151, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(61, 220, 151, 0);
+    }
+}
+
+.sync-label {
+    color: var(--text);
+}
+
+.sync-updated {
+    color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sync-dot {
+        animation: none !important;
+    }
+}
+
+/* Lookup */
+.lookup {
+    padding-top: 40px;
+    flex: 1;
+}
+
+.lookup h1 {
+    font-size: 26px;
+    margin: 0 0 6px;
+    font-weight: 600;
+}
+
+.lookup-sub {
+    color: var(--text-muted);
+    margin: 0 0 24px;
+    font-size: 14px;
+}
+
+.lookup-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.lookup-form input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+}
+
+.lookup-form input::placeholder {
+    color: var(--text-muted);
+}
+
+.lookup-form input:focus-visible,
+.lookup-form button:focus-visible {
+    outline: 2px solid var(--accent-live);
+    outline-offset: 2px;
+}
+
+.lookup-form button {
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.lookup-form button:hover {
+    opacity: 0.9;
+}
+
+/* Result area */
+.result-area {
+    min-height: 96px;
+    display: flex;
+    align-items: center;
+}
+
+.result-empty {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.result-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+}
+
+.result-card.in-stock {
+    border-left: 3px solid var(--accent-live);
+}
+
+.result-card.out-of-stock {
+    border-left: 3px solid var(--accent-alert);
+}
+
+.result-sku {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.result-status {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.result-status.in-stock-text {
+    color: var(--accent-live);
+}
+
+.result-status.out-of-stock-text {
+    color: var(--accent-alert);
+}
+
+.result-count {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.result-count-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* Recent lookups */
+.recent {
+    margin-top: 36px;
+}
+
+.recent h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+
+.recent-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.recent-empty {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.recent-item {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.recent-item .tag {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+}
+
+.recent-item .tag.in-stock {
+    background: var(--accent-live-dim);
+    color: var(--accent-live);
+}
+
+.recent-item .tag.out-of-stock {
+    background: var(--accent-alert-dim);
+    color: var(--accent-alert);
+}
+
+/* Footer */
+.app-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.app-footer code {
+    color: var(--text);
+}
+
+@media (max-width: 480px) {
+    .lookup-form {
+        flex-direction: column;
+    }
+
+    .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

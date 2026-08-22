@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Northstar Stock Lookup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app">
+
+        <header class="app-header">
+            <div class="brand">
+                <span class="brand-mark">NS</span>
+                <div class="brand-text">
+                    <span class="brand-name">Northstar Retail</span>
+                    <span class="brand-sub">Support Console</span>
+                </div>
+            </div>
+
+            <div class="sync-indicator" id="syncIndicator" data-mode="polling">
+                <span class="sync-dot"></span>
+                <span class="sync-label" id="syncLabel">Polling &middot; every 5 min</span>
+                <span class="sync-updated" id="syncUpdated">last synced --:--</span>
+            </div>
+        </header>
+
+        <main class="lookup">
+            <h1>Is this in stock?</h1>
+            <p class="lookup-sub">Enter a SKU to check live availability before you promise it to a customer.</p>
+
+            <form id="lookupForm" class="lookup-form" autocomplete="off">
+                <input type="text" id="skuInput" name="sku" placeholder="e.g. NS-40213" aria-label="Product SKU" />
+                <button type="submit">Check stock</button>
+            </form>
+
+            <section id="resultArea" class="result-area" aria-live="polite">
+                <p class="result-empty">No lookup yet. Try a SKU above.</p>
+            </section>
+
+            <section class="recent">
+                <h2>Recent lookups</h2>
+                <ul id="recentList" class="recent-list">
+                    <li class="recent-empty">Nothing checked yet this session.</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <span>Data source: <code>/api/stock/&lt;sku&gt;</code> &mdash; not yet connected to backend</span>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

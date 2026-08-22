@@ -1,0 +1,289 @@
+:root {
+    --bg: #faf6f0;
+    --surface: #ffffff;
+    --border: #e8e0d4;
+    --text: #2b2620;
+    --text-muted: #8a8074;
+
+    --idle: #2d2a5e;
+    --pending: #e8a33d;
+    --success: #3f9e5c;
+    --error: #d64545;
+
+    --idle-dim: rgba(45, 42, 94, 0.08);
+    --pending-dim: rgba(232, 163, 61, 0.12);
+    --success-dim: rgba(63, 158, 92, 0.1);
+    --error-dim: rgba(214, 69, 69, 0.1);
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+}
+
+.kiosk {
+    max-width: 560px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px 40px;
+}
+
+/* Header */
+.kiosk-header {
+    text-align: center;
+    padding-bottom: 24px;
+}
+
+.event-name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--idle);
+}
+
+.event-sub {
+    display: block;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    margin-top: 2px;
+}
+
+/* Main */
+.kiosk-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 0;
+}
+
+/* Status ring -- signature element */
+.status-ring {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    border: 4px solid var(--idle-dim);
+    background: var(--surface);
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.status-ring-glyph {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--idle);
+    transition: color 0.3s ease;
+}
+
+.status-ring[data-state="idle"] {
+    border-color: var(--idle-dim);
+}
+
+.status-ring[data-state="idle"] .status-ring-glyph {
+    color: var(--idle);
+}
+
+.status-ring[data-state="pending"] {
+    border-color: var(--pending);
+    border-top-color: transparent;
+    background: var(--pending-dim);
+    animation: spin 1s linear infinite;
+}
+
+.status-ring[data-state="pending"] .status-ring-glyph {
+    color: var(--pending);
+    animation: spin-counter 1s linear infinite;
+    /* keep glyph upright while ring spins */
+}
+
+.status-ring[data-state="success"] {
+    border-color: var(--success);
+    background: var(--success-dim);
+}
+
+.status-ring[data-state="success"] .status-ring-glyph {
+    color: var(--success);
+}
+
+.status-ring[data-state="error"] {
+    border-color: var(--error);
+    background: var(--error-dim);
+}
+
+.status-ring[data-state="error"] .status-ring-glyph {
+    color: var(--error);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-counter {
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .status-ring[data-state="pending"],
+    .status-ring[data-state="pending"] .status-ring-glyph {
+        animation: none;
+    }
+}
+
+/* Status text */
+.status-message {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 6px;
+}
+
+.status-detail {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0 0 28px;
+    min-height: 20px;
+}
+
+/* Scan form */
+.scan-form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 360px;
+}
+
+.scan-form input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    padding: 13px 16px;
+    border-radius: 10px;
+}
+
+.scan-form input::placeholder {
+    color: var(--text-muted);
+}
+
+.scan-form input:focus-visible,
+.scan-form button:focus-visible {
+    outline: 2px solid var(--idle);
+    outline-offset: 2px;
+}
+
+.scan-form button {
+    background: var(--idle);
+    color: #fff;
+    border: none;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 13px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.scan-form button:hover {
+    opacity: 0.92;
+}
+
+.scan-form button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Recent activity */
+.kiosk-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+}
+
+.kiosk-footer h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+
+.recent-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.recent-empty {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.recent-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    padding: 9px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.recent-item .tag {
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.recent-item .tag.success {
+    background: var(--success-dim);
+    color: var(--success);
+}
+
+.recent-item .tag.error {
+    background: var(--error-dim);
+    color: var(--error);
+}
+
+.recent-item .tag.pending {
+    background: var(--pending-dim);
+    color: var(--pending);
+}
+
+@media (max-width: 420px) {
+    .scan-form {
+        flex-direction: column;
+    }
+}
