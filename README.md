@@ -69,8 +69,6 @@ only queue adapter currently included in this module.
 meridian-pivot/
 ├── README.md                       (this file)
 ├── SCOPE_DELTA.md                  Northstar: what changed in the pivot
-├── BLOCKER_JOURNAL.md              Northstar: Day 1-2 log
-├── ADAPTABILITY_INDEX.md           Northstar: confidential peer review
 │
 ├── backend/                        Northstar service
 │   ├── sync_service.py             webhook receiver + query + search routes
@@ -87,8 +85,6 @@ meridian-pivot/
 └── solstice-checkin/
     ├── README.md                    setup, workflow, tests, and limitations
     ├── SCOPE_DELTA.md               what changed in this pivot
-    ├── BLOCKER_JOURNAL.md           Day 1-2 learning and blocker record
-    ├── ADAPTABILITY_INDEX.md        confidential peer review
     │
     ├── backend/
     │   ├── checkin_service.py       publish-and-return-pending + webhook receiver
@@ -99,8 +95,12 @@ meridian-pivot/
     │   ├── webhook_utils.py, config.py, requirements.txt
     │
     └── frontend/
-        ├── index.html, styles.css
-        └── script.js                 status ring + pending-state polling
+    |   ├── index.html, styles.css
+    |   └── script.js                 status ring + pending-state polling
+    |  
+    └── removed-files/
+        ├── checkin_service_desolate.py   async via message queue + webhook
+        └── job_queue_desolate.py         no real broker
 ```
 
 ## Message queue
