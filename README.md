@@ -110,11 +110,3 @@ durable, messages are persistent, and a message is acknowledged only after
 the vendor finishes processing and receives a successful webhook response.
 The demo state store is in memory, so production use would require shared
 durable storage for restart and multi-replica duplicate protection.
-
-## Assignment deliverable map (per module)
-
-| Assignment                              | Northstar               | Solstice                                 |
-| --------------------------------------- | ----------------------- | ---------------------------------------- |
-| 1: mini-prototype + Blocker Journal     | `BLOCKER_JOURNAL.md`    | `solstice-checkin/BLOCKER_JOURNAL.md`    |
-| 2: refactored deliverable + Scope Delta | code + `SCOPE_DELTA.md` | code + `solstice-checkin/SCOPE_DELTA.md` |
-| 3: Adaptability Index                   | `ADAPTABILITY_INDEX.md` | `solstice-checkin/ADAPTABILITY_INDEX.md` |
